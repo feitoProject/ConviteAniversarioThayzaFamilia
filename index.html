@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MEU ANIVERSARIO EBAA</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      position: relative;
+      width: 100%;
+      max-width: 450px;
+      height: auto;
+      overflow: hidden;
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+      transition: opacity 1.5s ease;
+      cursor: pointer;
+    }
+
+    #segunda {
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(1.02);
+    }
+
+    .mostrar {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      transform: scale(1) !important;
+      transition: opacity 2s ease, transform 2s ease;
+    }
+
+    /* Oculta o player do áudio */
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img id="primeira" src="primeira_pagina.jpg" alt="Envelope - primeira página">
+    <img id="segunda" src="segunda_pagina.jpg" alt="Convite - segunda página">
+  </div>
+
+  <!-- Música de fundo -->
+  <audio id="musica" loop>
+    <source src="musica.mp3" type="audio/mpeg">
+    Seu navegador não suporta áudio.
+  </audio>
+
+  <script>
+    const primeira = document.getElementById('primeira');
+    const segunda = document.getElementById('segunda');
+    const musica = document.getElementById('musica');
+
+    // Fade-in inicial da primeira imagem
+    window.onload = () => {
+      primeira.style.opacity = '1';
+    };
+
+    // Quando clicar no envelope (primeira imagem)
+    primeira.addEventListener('click', () => {
+      primeira.style.opacity = '0';
+      segunda.classList.add('mostrar');
+
+      // Tenta tocar a música (autorizado após clique no celular)
+      musica.play().then(() => {
+        // Efeito de fade-in no volume
+        musica.volume = 0;
+        let vol = 0;
+        const fadeIn = setInterval(() => {
+          if (vol < 0.4) {
+            vol += 0.02;
+            musica.volume = vol;
+          } else {
+            clearInterval(fadeIn);
+          }
+        }, 200);
+      }).catch((err) => {
+        console.log('Reprodução automática bloqueada:', err);
+      });
+    });
+  </script>
+</body>
+</html>
