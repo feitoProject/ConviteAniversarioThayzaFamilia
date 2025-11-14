@@ -53,7 +53,25 @@
       transition: opacity 2s ease, transform 2s ease;
     }
 
-    /* Oculta o player do áudio */
+    /* Botão da lista de presença */
+    #btnLista {
+      position: absolute;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 16px 36px;
+      font-size: 20px;
+      border: none;
+      border-radius: 12px;
+      background-color: #8A2BE2; /* Roxo */
+      color: #fff;
+      cursor: pointer;
+      z-index: 10;
+      font-weight: bold;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.5);
+      display: none;
+    }
+
     audio {
       display: none;
     }
@@ -61,8 +79,16 @@
 </head>
 <body>
   <div class="container">
+
+    <!-- Primeira imagem -->
     <img id="primeira" src="primeira_pagina.jpg" alt="Envelope - primeira página">
+
+    <!-- Segunda imagem -->
     <img id="segunda" src="segunda_pagina.jpg" alt="Convite - segunda página">
+
+    <!-- Botão de lista -->
+    <button id="btnLista">Confirmar Presença</button>
+
   </div>
 
   <!-- Música de fundo -->
@@ -75,20 +101,25 @@
     const primeira = document.getElementById('primeira');
     const segunda = document.getElementById('segunda');
     const musica = document.getElementById('musica');
+    const btnLista = document.getElementById('btnLista');
 
     // Fade-in inicial da primeira imagem
     window.onload = () => {
       primeira.style.opacity = '1';
     };
 
-    // Quando clicar no envelope (primeira imagem)
+    // Clique na primeira imagem
     primeira.addEventListener('click', () => {
       primeira.style.opacity = '0';
       segunda.classList.add('mostrar');
 
-      // Tenta tocar a música (autorizado após clique no celular)
+      // Mostrar botão da lista após a segunda imagem aparecer
+      setTimeout(() => {
+        btnLista.style.display = 'block';
+      }, 1200);
+
+      // Música com fade-in
       musica.play().then(() => {
-        // Efeito de fade-in no volume
         musica.volume = 0;
         let vol = 0;
         const fadeIn = setInterval(() => {
@@ -103,6 +134,12 @@
         console.log('Reprodução automática bloqueada:', err);
       });
     });
+
+    // Botão da lista → link externo
+    btnLista.addEventListener('click', () => {
+      window.location.href = "https://www.listapresenca.com.br/?d=MjQyNDZfMjgzMTA=";
+    });
+
   </script>
 </body>
 </html>
